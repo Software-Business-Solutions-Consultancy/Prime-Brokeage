@@ -1,22 +1,26 @@
-import React from 'react'
 import RequestIcon from '../icons/RequestIcon'
 import ReportIcon from '../icons/ReportIcon'
-import { useLocation, useNavigate } from 'react-router';
-import { fetchBasePath } from '../../core/utils/fetchBasePath';
+import NewRequestIcon from '../icons/NewRequestIcon';
+import LayoutOptionTile from './LayoutOptionTile';
+import { icons } from 'lucide-react';
+import LogOutIcon from '../icons/LogOutIcon';
 
 
 
 const LayoutOptions = () => {
-    const navigate = useNavigate()
-    const location = useLocation();
         const menus = [
   {
-    owner: 'customer',
+    owner: 'customerInitiator',
     options: [
       {
         name: 'Pending Request',
         path: '/customer/pending-request',
         icon: <RequestIcon/>
+      },
+      {
+        name: 'New Request',
+        path: '/customer/new-request',
+        icon: <NewRequestIcon/>
       },
       {
         name: 'Report',
@@ -26,6 +30,7 @@ const LayoutOptions = () => {
       {
         name: 'Logout',
         path: '/logout',
+        icon: <LogOutIcon/>
       },
     ]
   },
@@ -34,50 +39,49 @@ const LayoutOptions = () => {
     options: [
       {
         name: 'Request Review',
-        path: '/request-review',
+        path: '/in-branch/request-review',
       },
       {
         name: 'Request Report',
-        path: '/request-report',
+        path: '/in-branch/request-report',
       },
       {
         name: 'Sorting/Matching',
         path: '/sorting-matching',
+                icon: <RequestIcon/>
+
       },
       {
         name: 'Sorted/Matched',
         path: '/sorted-matched',
+                icon: <RequestIcon/>
+
       },
       {
         name: 'Report',
         path: '/report',
+                icon: <ReportIcon/>
+
       },
       {
         name: 'Logout',
         path: '/logout',
+        icon: <LogOutIcon/>
+
       }
     ]
   }
 ]
 
 
-const gotoPath = (path: string) => {
-    // const fullPath = basepath ? `${basepath}${path}` : path;    
-    // console.log('Navigating to:', fullPath);
-    // window.location.href = path;
-    navigate(path);
-}
-       
+    
   return (
     <div className='px-[70px] py-6 '>
                   <p className='text-[27px] font-bold mb-[30px]'>Unlock Your Trading Potential  to maximize your investment strategies</p>
         
       <div className='grid md:grid-cols-2 grid-cols-1 gap-7'>
-        {menus[0]?.options.map((menu, index) => (       
-            <div onClick={() => gotoPath(menu.path)} key={index} className={`border cursor-pointer border-gray-300 rounded-lg p-4 ${location.pathname === menu.path ? 'bg-[#BA68C8] font-medium' : 'border-[#BA68C8]'}`}>
-                <>{menu?.icon}</>
-                <p className={`pt-3 ${location.pathname === menu.path ? 'text-white' : 'text-[#2A2A2A]'}`}>{menu?.name}</p>
-            </div>
+        {menus[1]?.options.map((menu, index) => (       
+            <LayoutOptionTile key={index} {...menu} />
         ))}
       </div>
     </div>

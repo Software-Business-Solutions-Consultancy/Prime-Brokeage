@@ -1,74 +1,39 @@
+import React from 'react'
 import DataTable, { type Column } from '../../components/shared/DataTable'
 import Request from '/assets/img/request.svg'
-
-const AllRequest = () => {
-
+const CustomerReport = () => {
 
 
-interface Transaction {
-  id: number
-  transactionId: string
-  requestStatus: string
-  authorizer: string
-  dateInitiated: string
-  transactionComment: string
-  dateApproved: string
-}
-
-const transactions: Transaction[] = [
+    const transactions: any[] = [
   {
     id: 1,
     transactionId: "PB220345",
     requestStatus: "Pending",
-    authorizer: "Banke",
+    transactionStatus: "Pending",
+    initiator: "Banke",
     dateInitiated: "10/04/2024 - 14:56",
     transactionComment: "NA",
+    authorizer: "Agbaje Jimi",
     dateApproved: "10/04/2024 - 14:56",
+    accountNumber: "0978654356",
   },
- 
   {
-    id: 1,
-    transactionId: "PB220345",
-    requestStatus: "Pending",
-    authorizer: "Banke",
-    dateInitiated: "10/04/2024 - 14:56",
-    transactionComment: "NA",
-    dateApproved: "10/04/2024 - 14:56",
+    id: 2,
+    transactionId: "PB220346",
+    requestStatus: "Approved",
+    transactionStatus: "Completed",
+    initiator: "John",
+    dateInitiated: "11/04/2024 - 09:30",
+    transactionComment: "Urgent transfer",
+    authorizer: "Sarah Smith",
+    dateApproved: "11/04/2024 - 10:15",
+    accountNumber: "0978654357",
   },
- 
-  {
-    id: 1,
-    transactionId: "PB220345",
-    requestStatus: "Pending",
-    authorizer: "Banke",
-    dateInitiated: "10/04/2024 - 14:56",
-    transactionComment: "NA",
-    dateApproved: "10/04/2024 - 14:56",
-  },
- 
-  {
-    id: 1,
-    transactionId: "PB220345",
-    requestStatus: "Pending",
-    authorizer: "Banke",
-    dateInitiated: "10/04/2024 - 14:56",
-    transactionComment: "NA",
-    dateApproved: "10/04/2024 - 14:56",
-  },
- 
-  {
-    id: 1,
-    transactionId: "PB220345",
-    requestStatus: "Pending",
-    authorizer: "Banke",
-    dateInitiated: "10/04/2024 - 14:56",
-    transactionComment: "NA",
-    dateApproved: "10/04/2024 - 14:56",
-  },
- 
 ]
 
-const columns: Column<Transaction>[] = [
+
+
+const columns: Column<any>[] = [
   {
     key: "id",
     label: "S/N",
@@ -87,14 +52,20 @@ const columns: Column<Transaction>[] = [
       <span className={value === "Pending" ? "text-orange-500" : "text-green-500"}>{String(value)}</span>
     ),
   },
-  
-  { key: "authorizer", label: "Initiator" },
-  { key: "dateInitiated", label: "Date Approved" },
-  { key: "transactionComment", label: "Comment" },
+  {
+    key: "transactionStatus",
+    label: "Transaction Status",
+    render: (value) => (
+      <span className={value === "Pending" ? "text-orange-500" : "text-green-500"}>{String(value)}</span>
+    ),
+  },
+  { key: "initiator", label: "Initiator" },
+  { key: "dateInitiated", label: "Date Initiated" },
 ]
 
+
   return (
-    <div>
+     <div>
       
       <div className='flex gap-4 items-center mb-6'>
         <img src={Request} alt="Report Icon" />
@@ -105,8 +76,7 @@ const columns: Column<Transaction>[] = [
         <DataTable
         data={transactions}
         columns={columns}
-        isExpandable={false}
-        searchKeys={["transactionId"]}
+        searchKeys={["transactionId", "initiator"]}
         expandedContent={(row) => (
           <div className="grid grid-cols-2 gap-4 max-w-md">
             <p className="text-sm font-medium text-zinc-700">Transaction Comment</p>
@@ -116,6 +86,9 @@ const columns: Column<Transaction>[] = [
             <p className="text-sm font-medium text-zinc-700">Date Approved</p>
             <p className="text-sm text-zinc-600">{row.dateApproved}</p>
             <p className="text-sm font-medium text-zinc-700">Account Number</p>
+            <p className="text-sm text-zinc-600">{row.accountNumber}</p>
+            <p className="text-sm font-medium text-zinc-700">Security Name</p>
+            <p className="text-sm text-zinc-600">{'row.accountNumber'}</p>
           </div>
         )}
         
@@ -124,4 +97,4 @@ const columns: Column<Transaction>[] = [
   )
 }
 
-export default AllRequest
+export default CustomerReport

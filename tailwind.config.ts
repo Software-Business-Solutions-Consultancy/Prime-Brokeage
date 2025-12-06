@@ -13,7 +13,8 @@ export default {
 			},
   		
   		colors: {
-  			'primaryBlack': '#1A1A1A'
+  			'primaryBlack': '#1A1A1A',
+  			'primary': '#BA68C8',
   		},
 		
   	}

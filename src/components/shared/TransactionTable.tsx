@@ -282,13 +282,7 @@ export function TransactionTable() {
         </table>
       </div>
 
-      {/* Footer */}
-      <footer className="mt-8 bg-zinc-900 text-white py-3 px-4 rounded-lg">
-        <p className="text-sm text-center">
-          <span className="text-orange-500">WHISTLE BLOWER</span>
-          <span className="mx-2">|</span>© Coronation Merchant Bank. All rights reserved
-        </p>
-      </footer>
+    
     </div>
   )
 }
