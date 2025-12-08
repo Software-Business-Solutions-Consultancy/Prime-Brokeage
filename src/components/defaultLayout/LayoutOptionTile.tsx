@@ -47,10 +47,35 @@ console.log(match, path)
 
 
   return (
-    <div onClick={() => gotoPath(path, name)}  className={`border cursor-pointer border-gray-300 rounded-lg p-4 ${location.pathname === path ? 'bg-[#BA68C8] font-medium' : 'border-[#BA68C8]'}`}>
-                <>{activeIcon}</>
-                <p className={`pt-3 break break-words ${location.pathname === path ? 'text-white' : 'text-[#2A2A2A]'}`}>{name}</p>
-            </div>
+    <div
+  onClick={() => gotoPath(path, name)}
+  className={`
+    cursor-pointer rounded-lg p-4
+    ${
+      location.pathname === path && location.pathname.includes('customer')
+        ? 'bg-[#BA68C8] font-medium'
+      : location.pathname === path && !location.pathname.includes('customer')
+        ? 'cmb-variant-bg border border-[#FF4116] !text-black'
+        : location.pathname.includes('customer')
+          ? 'border border-[#BA68C8]'
+        : !location.pathname.includes('customer')
+          ? 'border border-[#FF4116] bg-white text-black':
+          ''
+    }
+  `}
+>
+    {activeIcon}
+
+    <p
+      className={`
+        pt-3 break break-words
+        ${location.pathname === path && location.pathname.includes('customer') ? 'text-white' : 'text-[#2A2A2A]'}
+      `}
+    >
+      {name}
+    </p>
+</div>
+
   )
 }
 
