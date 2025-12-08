@@ -36,50 +36,50 @@ const Auth = () => {
   }
   return (
     <div className='flex h-screen'>
-      <div className='w-1/2 px-[70px] pt-12'>
-      <h4 className='pb-6 font-bold text-4xl'>CMB Prime Brokerage Portal</h4>
-      <p className='pb-3 text-2xl'>Login</p>
-      <p className='pb-4 text-[15px]'>Kindly sign in with your Coronation Merchant Bank credential to continue.</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-
+      <div className='w-1/2 px-[70px]  flex items-center justify-center'>
       <div>
-         <label htmlFor="userName" className="block text-sm font-medium text-black mb-1">
-                      Username
-                    </label>
-            <Input placeholder='Username'  id='username' aria-invalid={!!errors.email}
-                      className={cn(
-                        'focus-visible:ring-app-primary',
-                        errors.email && 'border-app-danger focus-visible:ring-app-danger'
-                      )} />
+        <h4 className='pb-6 font-bold text-4xl'>CMB Prime Brokerage Portal</h4>
+        <p className='pb-3 text-2xl'>Login</p>
+        <p className='pb-4 text-[15px]'>Kindly sign in with your Coronation Merchant Bank credential to continue.</p>
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        <div>
+           <label htmlFor="userName" className="block text-sm font-medium text-black mb-1">
+                        Username
+                      </label>
+              <Input placeholder='Username'  id='username' aria-invalid={!!errors.email}
+                        className={cn(
+                          'focus-visible:ring-app-primary',
+                          errors.email && 'border-app-danger focus-visible:ring-app-danger'
+                        )} />
+        </div>
+        <div>
+           <label htmlFor="password" className="block text-sm font-medium text-black mb-1">
+                        Password
+                      </label>
+                      <div className="relative">
+              <Input placeholder='Password' type={showPassword ? 'text' : 'password'}  id='password' aria-invalid={!!errors.email}
+                        className={cn(
+                          'focus-visible:ring-app-primary',
+                          errors.email && 'border-app-danger focus-visible:ring-app-danger'
+                        )} />
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-0 flex items-center pr-3 text-app-secondary"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOffIcon className="h-4 w-4" />
+                          ) : (
+                            <EyeIcon className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+        </div>
+        <button type='submit' className='bg-[#BA68C8] text-white py-3 rounded-md transition-colors '> {isLoading ? 'Loading...' : 'Login'}</button>
+          </form>
       </div>
-      <div>
-         <label htmlFor="password" className="block text-sm font-medium text-black mb-1">
-                      Password
-                    </label>
-                    <div className="relative">
-
-            <Input placeholder='Password' type={showPassword ? 'text' : 'password'}  id='password' aria-invalid={!!errors.email}
-                      className={cn(
-                        'focus-visible:ring-app-primary',
-                        errors.email && 'border-app-danger focus-visible:ring-app-danger'
-                      )} />
-                      <button
-                        type="button"
-                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-app-secondary"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOffIcon className="h-4 w-4" />
-                        ) : (
-                          <EyeIcon className="h-4 w-4" />
-                        )}
-                      </button>
-                    </div>
       </div>
-      <button type='submit' className='bg-[#BA68C8] text-white py-3 rounded-md transition-colors '> {isLoading ? 'Loading...' : 'Login'}</button>
-        </form>
-      </div>
-      <div className='w/1-2 '>
+      <div className='w/1-2 flex items-center justify-center'>
         <img src={CustomerImg} alt="" className='flex items-center justify-center' />
       </div>
     </div>
