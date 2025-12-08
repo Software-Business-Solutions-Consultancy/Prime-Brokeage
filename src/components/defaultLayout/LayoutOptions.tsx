@@ -4,15 +4,18 @@ import NewRequestIcon from '../icons/NewRequestIcon';
 import LayoutOptionTile from './LayoutOptionTile';
 import LogOutIcon from '../icons/LogOutIcon';
 import { useLocation } from 'react-router';
+import { useEffect, useState } from 'react';
+import { FileText } from 'lucide-react';
+// import RequestReportIcon from '../icons/RequestReportIcon';
 
 
 
 const LayoutOptions = () => {
   const location = useLocation();
-
+const [selectedUser, setselectedUser] = useState('customer');
         const menus = [
   {
-    owner: 'customerInitiator',
+    owner: 'customer',
     options: [
       {
         name: 'Pending Request',
@@ -79,10 +82,12 @@ const LayoutOptions = () => {
       {
         name: 'Pending Request',
         path: '/operations/pending-request',
+        icon: <RequestIcon/>
       },
       {
         name: 'Request Report',
         path: '/operations/request-report',
+        icon: <FileText className={location.pathname === '/operations/request-report' ? 'fill-white' : ''}/>
       },
       
       {
@@ -94,6 +99,17 @@ const LayoutOptions = () => {
     ]
   }
 ]
+
+useEffect(() => {
+    if (location.pathname.includes('customer')) {
+      setselectedUser('customer');
+    } else if (location.pathname.includes('in-branch')) {
+      setselectedUser('inBranch');
+    } else if (location.pathname.includes('operations')) {
+      setselectedUser('operations');
+    }
+
+}, [location.pathname]);
 
 
     
@@ -109,9 +125,11 @@ const LayoutOptions = () => {
       </div>
         
       <div className='grid md:grid-cols-2 grid-cols-1 gap-7'>
-        {menus[2]?.options.map((menu, index) => (       
-            <LayoutOptionTile key={index} {...menu} />
-        ))}
+        {
+          menus.find(menu => menu.owner === selectedUser)?.options.map((menu, index) => (
+            <LayoutOptionTile key={index+'dd'} {...menu} />
+          ))
+        }
       </div>
     </div>
   )
