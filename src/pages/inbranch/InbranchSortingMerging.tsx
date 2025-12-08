@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router"
+// import { useNavigate } from "react-router"
 import DataTable, { type Column } from '../../components/shared/DataTable'
 import Request from '/assets/img/request.svg'
 
 const InbranchSortingMerging = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const transactions: any[] = [
   {
     id: 1,

@@ -84,7 +84,7 @@ useEffect(() => {
               columns={columns}
               isExpandable={true}
               showSearch={false}
-              expandedContent={(row) => (
+              expandedContent={() => (
                 <div className="grid grid-cols-2 gap-4 max-w-md">
                   <p className="text-sm font-medium text-zinc-700">Security Name</p>
                   <p className="text-sm text-zinc-600">Lorem</p>
