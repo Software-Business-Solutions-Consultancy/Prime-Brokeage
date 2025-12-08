@@ -73,7 +73,7 @@ const columns: Column<any>[] = [
   {
     key: "action",
     label: "Action",
-    render: (value) => (
+    render: () => (
       <div className="flex gap-3">
         <Button onClick={() => actionRequest('send')} variant='transparent' iconPosition='right' iconType='img' icon={Send} >Send</Button>
         <Button onClick={() => actionRequest('return')} variant='transparent' iconPosition='right' iconType='img' icon={Return} >Return</Button>

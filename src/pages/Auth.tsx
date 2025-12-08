@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CustomerImg from '/assets/img/customer-auth.svg'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -32,6 +32,7 @@ const Auth = () => {
 
   const onSubmit = (data: LoginFormData) => {
     console.log(data);
+    setIsLoading(true)
   }
   return (
     <div className='flex h-screen'>

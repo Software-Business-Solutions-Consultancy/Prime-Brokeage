@@ -1,4 +1,3 @@
-import React from 'react'
 import DataTable, { type Column } from '../../components/shared/DataTable'
 import Request from '/assets/img/request.svg'
 const CustomerReport = () => {

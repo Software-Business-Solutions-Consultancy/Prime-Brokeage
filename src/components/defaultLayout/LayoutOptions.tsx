@@ -2,7 +2,6 @@ import RequestIcon from '../icons/RequestIcon'
 import ReportIcon from '../icons/ReportIcon'
 import NewRequestIcon from '../icons/NewRequestIcon';
 import LayoutOptionTile from './LayoutOptionTile';
-import { icons } from 'lucide-react';
 import LogOutIcon from '../icons/LogOutIcon';
 import { useLocation } from 'react-router';
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import DefaultLayout from '../../components/defaultLayout/DefaultLayout'
 import OperationsContainer from './OperationsContainer'
 
