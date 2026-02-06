@@ -96,7 +96,7 @@ const columns: Column<Transaction>[] = [
   return (
     <div>
       
-      <div className='flex gap-4 items-center mb-6'>
+      <div className='flex gap-4 items-center mb-6 border-b border-[#BA68C8]'>
         <img src={Request} alt="Report Icon" />
         <p className='font-bold text-[32px]'>Requests Pending Authorization</p>
       </div>

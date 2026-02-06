@@ -37,8 +37,8 @@ const columns: Column<any>[] = [
     label: "S/N",
     render: (value) => (
       <span className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-green-500" />
         {String(value)}
+        {/* <span className="w-2 h-2 rounded-full bg-green-500" /> */}
       </span>
     ),
   },
@@ -65,6 +65,8 @@ const columns: Column<any>[] = [
         <DataTable
         data={transactions}
         columns={columns}
+        hasFilter={true}
+        hasExport={true}
         searchKeys={["transactionId", "initiator"]}
         expandedContent={(row) => (
           <div className="grid grid-cols-2 gap-4 max-w-md">

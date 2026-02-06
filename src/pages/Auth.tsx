@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import CustomerImg from '/assets/img/customer-auth.svg'
+import CustomerImg from '/assets/img/auth.png'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../components/shared/ui/input'
@@ -7,16 +7,18 @@ import { loginSchema, type LoginFormData } from '../core/libs/validations/valida
 import { cn } from '../core/libs/utils';
 // import { useNavigate } from 'react-router';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useUserStore } from '../store/useUserStore';
+import { useNavigate } from 'react-router';
 
 const Auth = () => {
-
+const navigate = useNavigate()
       const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 //   const navigate = useNavigate();
-
+const {setUserData, setUserType} = useUserStore()
   
       const {
-    // register,
+    register,
     handleSubmit,
     formState: { errors },
     // setError,
@@ -33,6 +35,20 @@ const Auth = () => {
   const onSubmit = (data: LoginFormData) => {
     console.log(data);
     setIsLoading(true)
+    setUserData(data)
+    if (data.email.includes('gmi')) {
+      setUserType('gmi')  
+      navigate('/gmt')
+    } else if (data.email.includes('gmta')) {
+      setUserType('gmta')  
+      navigate('/gmt')
+    } else if (data.email.includes('ops')) {
+      setUserType('ops')
+      navigate('/operations')
+    } else if (data.email.includes('opapprover')) {
+      setUserType('opsa')
+      navigate('/operations')
+    }
   }
   return (
     <div className='flex h-screen'>
@@ -46,7 +62,7 @@ const Auth = () => {
            <label htmlFor="userName" className="block text-sm font-medium text-black mb-1">
                         Username
                       </label>
-              <Input placeholder='Username'  id='username' aria-invalid={!!errors.email}
+              <Input {...register('email')} placeholder='Username'  id='username' aria-invalid={!!errors.email}
                         className={cn(
                           'focus-visible:ring-app-primary',
                           errors.email && 'border-app-danger focus-visible:ring-app-danger'
@@ -57,7 +73,7 @@ const Auth = () => {
                         Password
                       </label>
                       <div className="relative">
-              <Input placeholder='Password' type={showPassword ? 'text' : 'password'}  id='password' aria-invalid={!!errors.email}
+              <Input {...register('password')} placeholder='Password' type={showPassword ? 'text' : 'password'}  id='password' aria-invalid={!!errors.email}
                         className={cn(
                           'focus-visible:ring-app-primary',
                           errors.email && 'border-app-danger focus-visible:ring-app-danger'
@@ -75,7 +91,7 @@ const Auth = () => {
                         </button>
                       </div>
         </div>
-        <button type='submit' className='bg-[#BA68C8] text-white py-3 rounded-md transition-colors '> {isLoading ? 'Loading...' : 'Login'}</button>
+        <button type='submit' className='bg-gradient-to-r from-[#FF8200] to-[#FF002B] text-white py-3 rounded-md transition-colors '> {isLoading ? 'Loading...' : 'Login'}</button>
           </form>
       </div>
       </div>

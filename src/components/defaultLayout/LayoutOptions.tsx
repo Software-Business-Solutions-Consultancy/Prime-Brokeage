@@ -5,13 +5,14 @@ import LayoutOptionTile from './LayoutOptionTile';
 import LogOutIcon from '../icons/LogOutIcon';
 import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
-import { FileText } from 'lucide-react';
+import { ArrowDownWideNarrow, FileText } from 'lucide-react';
+import { useUserStore } from '../../store/useUserStore';
 // import RequestReportIcon from '../icons/RequestReportIcon';
-
 
 
 const LayoutOptions = () => {
   const location = useLocation();
+  const {userType} = useUserStore()
 const [selectedUser, setselectedUser] = useState('customer');
         const menus = [
   {
@@ -39,33 +40,131 @@ const [selectedUser, setselectedUser] = useState('customer');
       },
     ]
   },
+  // {
+  //   owner: 'gmi',
+  //   options: [
+  //     {
+  //       name: 'Request Review',
+  //       path: '/in-branch/request-review',
+  //     },
+  //     {
+  //       name: 'Request Report',
+  //       path: '/in-branch/request-report',
+  //     },
+  //     {
+  //       name: 'Sorting/Matching',
+  //       path: '/in-branch/sorting-matching',
+  //               icon: <ArrowDownWideNarrow/>
+
+  //     },
+  //     {
+  //       name: 'Sorted/Matched',
+  //       path: '/sorted-matched',
+  //               icon: <RequestIcon/>
+
+  //     },
+  //     {
+  //       name: 'Report',
+  //       path: '/report',
+  //               icon: <ReportIcon/>
+
+  //     },
+  //     {
+  //       name: 'Logout',
+  //       path: '/logout',
+  //       icon: <LogOutIcon/>
+
+  //     }
+  //   ]
+  // },
   {
-    owner: 'inBranch',
+    owner: 'gmi',
     options: [
       {
         name: 'Request Review',
-        path: '/in-branch/request-review',
-      },
-      {
-        name: 'Request Report',
-        path: '/in-branch/request-report',
+        path: '/gmt/request-review',
       },
       {
         name: 'Sorting/Matching',
-        path: '/in-branch/sorting-matching',
-                icon: <RequestIcon/>
+        path: '/gmt/sorting-matching',
+                icon: <ArrowDownWideNarrow/>
 
       },
+      
+      // {
+      //   name: 'Authorize for Payment',
+      //   path: '/gmt/authorize-for-payment',
+      //           icon: <RequestIcon/>
+
+      // },
       {
         name: 'Sorted/Matched',
-        path: '/sorted-matched',
+        path: '/gmt/sorted-matched',
+                icon: <RequestIcon/>
+
+      },
+      // {
+      //   name: 'Report',
+      //   path: '/gmt/request-report',
+      //           icon: <RequestIcon/>
+
+      // },
+
+      
+      {
+        name: 'Report',
+        path: '/gmt/report',
+                icon: <ReportIcon/>
+
+      },
+
+      {
+        name: 'Logout',
+        path: '/logout',
+        icon: <LogOutIcon/>
+
+      }
+    ]
+  },
+  {
+    owner: 'gmta',
+    options: [
+      {
+        name: 'Request Review',
+        path: '/gmt/request-review',
+      },
+      {
+        name: 'Sorting/Matching',
+        path: '/gmt/sorting-matching',
+                icon: <ArrowDownWideNarrow/>
+
+      },
+      
+      {
+        name: 'Authorize for Payment',
+        path: '/gmt/authorize-for-payment',
                 icon: <RequestIcon/>
 
       },
       {
-        name: 'Report',
-        path: '/report',
-                icon: <ReportIcon/>
+        name: 'Request Report',
+        path: '/gmt/request-report',
+                icon: <RequestIcon/>
+
+      },
+
+      
+      // {
+      //   name: 'Report',
+      //   path: '/gmt/report',
+      //           icon: <ReportIcon/>
+
+      // },
+
+      {
+        name: 'Sorted/Matched',
+        path: '/gmt/sorted-matched',
+                icon: <RequestIcon/>
 
       },
       {
@@ -77,7 +176,7 @@ const [selectedUser, setselectedUser] = useState('customer');
     ]
   },
   {
-    owner: 'operations',
+    owner: 'ops',
     options: [
       {
         name: 'Pending Request',
@@ -89,6 +188,38 @@ const [selectedUser, setselectedUser] = useState('customer');
         path: '/operations/request-report',
         icon: <FileText className={location.pathname === '/operations/request-report' ? 'fill-white' : ''}/>
       },
+      {
+        name: 'Upload Security Item',
+        path: '/operations/upload-security-item',
+        icon: <FileText className={location.pathname === '/operations/upload-security-item' ? 'fill-white' : ''}/>
+      },
+      
+      {
+        name: 'Logout',
+        path: '/logout',
+        icon: <LogOutIcon/>
+
+      }
+    ]
+  },
+  {
+    owner: 'opsa',
+    options: [
+      {
+        name: 'Pending Request',
+        path: '/operations/pending-request/approver',
+        icon: <RequestIcon/>
+      },
+      {
+        name: 'Request Report',
+        path: '/operations/request-report',
+        icon: <FileText className={location.pathname === '/operations/request-report' ? 'fill-white' : ''}/>
+      },
+      // {
+      //   name: 'Upload Security Item',
+      //   path: '/operations/upload-security-item',
+      //   icon: <FileText className={location.pathname === '/operations/upload-security-item' ? 'fill-white' : ''}/>
+      // },
       
       {
         name: 'Logout',
@@ -105,6 +236,8 @@ useEffect(() => {
       setselectedUser('customer');
     } else if (location.pathname.includes('in-branch')) {
       setselectedUser('inBranch');
+    } else if (location.pathname.includes('gmt')) {
+      setselectedUser('gmt');
     } else if (location.pathname.includes('operations')) {
       setselectedUser('operations');
     }
@@ -126,7 +259,7 @@ useEffect(() => {
         
       <div className='grid md:grid-cols-2 grid-cols-1 gap-7'>
         {
-          menus.find(menu => menu.owner === selectedUser)?.options.map((menu, index) => (
+          menus.find(menu => menu.owner === userType)?.options.map((menu, index) => (
             <LayoutOptionTile key={index+'dd'} {...menu} />
           ))
         }

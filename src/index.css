@@ -15,3 +15,7 @@ body {
     rgba(255, 0, 43, 0.18) 100%
   );
 }
+
+.btn-main {
+  @apply bg-gradient-to-r from-[#FF8200] to-[#FF002B]
+}

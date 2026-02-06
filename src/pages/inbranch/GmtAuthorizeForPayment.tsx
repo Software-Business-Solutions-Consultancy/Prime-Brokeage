@@ -9,8 +9,8 @@ import Approved from '/assets/img/approved.svg'
 import Declined from '/assets/img/declined.svg'
 
 
-const RequestReview = () => {
-  type actions = 'send' | 'return' | 'declined'
+const GmtAuthorizeForPayment = () => {
+ type actions = 'send' | 'return' | 'declined'
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [actionType, setactionType] = useState<string>('');
 const navigate = useNavigate()
@@ -73,7 +73,7 @@ const columns: Column<any>[] = [
     label: "Action",
     render: () => (
       <div className="flex item-center gap-5">
-        <p onClick={() => actionRequest('send')} className='text-[#209020] underline decoration-[#209020] cursor-pointer '>Process</p>
+        <p onClick={() => actionRequest('send')} className='text-[#209020] underline decoration-[#209020] cursor-pointer '>Approve</p>
         <p onClick={() => actionRequest('return')} className='text-[#FF4040] underline decoration-[#FF4040] cursor-pointer'>Decline</p>
       </div>
     ),
@@ -110,7 +110,7 @@ const columnsAuthorizer: Column<any>[] = [
       
       <div className='flex gap-4 items-center mb-6'>
         <img src={Request} alt="Report Icon" />
-        <p className='font-bold text-[32px]'>Customer Request Review</p>
+        <p className='font-bold text-[32px]'>Pending Authorization for Payment Portal</p>
       </div>
      
 
@@ -151,7 +151,7 @@ const columnsAuthorizer: Column<any>[] = [
                 <img src={actionType === 'send' ? Approved: Declined} alt="Action icon" className='flex items-center justify-center w-fit mx-auto'  />
                 <div className=' pb-6 border-primary border-b'>
 
-                <p className='font-bold text-[27px] justify-center text-center flex items-center'>{actionType === 'send' ? 'Request has been sent for approval successfully' : 'Request sent back to customer'}</p>
+                <p className='font-bold text-[27px] justify-center text-center flex items-center'>{actionType === 'send' ? 'Successful request sent for Payment!' : 'Request sent back to the initiator'}</p>
                 </div>
                   
                 <div className='flex item-end justify-end mt-4'>
@@ -182,4 +182,5 @@ const columnsAuthorizer: Column<any>[] = [
   )
 }
 
-export default RequestReview
+
+export default GmtAuthorizeForPayment

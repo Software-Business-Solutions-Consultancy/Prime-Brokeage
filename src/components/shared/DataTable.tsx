@@ -1,6 +1,8 @@
 
 import { useState, useMemo, type ReactNode } from "react"
-import { ChevronDown, ChevronUp, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
+import { ChevronDown, ChevronUp, ArrowUpDown, ArrowUp, ArrowDown, CircleMinus, CirclePlus } from "lucide-react"
+import Export from "/assets/img/Export.svg"
+import Filter from '/assets/img/Filter.svg'
 
 export interface Column<T> {
   key: keyof T
@@ -13,10 +15,14 @@ export interface DataTableProps<T extends { id?: string | number }> {
   data: T[]
   columns: Column<T>[]
   expandedContent?: (row: T) => ReactNode
-    isExpandable?: boolean
+  isExpandable?: boolean
   searchKeys?: (keyof T)[]
   showSearch?: boolean
   showEntriesDropdown?: boolean
+  hasFilter?: boolean
+  hasExport?: boolean
+  onExport?: () => void
+  onFilter?: (startDate: string, endDate: string) => void
   footer?: ReactNode
 }
 
@@ -41,9 +47,8 @@ function SortableHeader<T>({
 
   return (
     <th
-      className={`px-4 py-3 text-left text-sm font-medium ${
-        isSortable ? "cursor-pointer hover:bg-zinc-800 transition-colors select-none" : ""
-      }`}
+      className={`px-4 py-3 text-left text-sm font-medium ${isSortable ? "cursor-pointer  transition-colors select-none" : ""
+        }`}
       onClick={() => isSortable && onSort(column.key)}
     >
       <span className="flex items-center gap-1">
@@ -72,16 +77,23 @@ export function DataTable<T extends { id: string | number }>({
   searchKeys = [],
   showSearch = true,
   showEntriesDropdown = true,
+  hasFilter = false,
+  hasExport = false,
+  onExport,
+  onFilter,
+
 }: DataTableProps<T>) {
   const [expandedRow, setExpandedRow] = useState<string | number | null>(null)
   const [entriesPerPage, setEntriesPerPage] = useState(10)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortConfig, setSortConfig] = useState<SortConfig<T>>({ key: null, direction: null })
+  const [filterStartDate, setFilterStartDate] = useState("")
+  const [filterEndDate, setFilterEndDate] = useState("")
 
-    const canExpand = isExpandable && !!expandedContent
+  const canExpand = isExpandable && !!expandedContent
 
 
- const toggleRow = (id: string | number) => {
+  const toggleRow = (id: string | number) => {
     if (canExpand) {
       setExpandedRow(expandedRow === id ? null : id)
     }
@@ -131,6 +143,57 @@ export function DataTable<T extends { id: string | number }>({
 
   return (
     <div className="w-full">
+      {(hasFilter || hasExport) && (
+        <div className=" py-4 mb-6 border-y border-[#FF4116]">
+          <div className="">
+            {hasExport && (
+                <button
+                  onClick={() => onExport?.()}
+                  className="flex ml-auto mb-5 items-center gap-2 btn-main text-white px-10 py-4 rounded text-sm font-medium hover:bg-orange-700 transition-colors"
+                >
+                  {/* <Download className="w-4 h-4" /> */}
+                  <img src={Export} alt="" />
+                  EXPORT
+                </button>
+              )}
+            {hasFilter && 
+              
+            <div className="flex items-center justify-end  gap-3">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-zinc-700">Filter By:</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="date"
+                    value={filterStartDate}
+                    onChange={(e) => setFilterStartDate(e.target.value)}
+                    className="border border-zinc-300 rounded px-3 py-4 text-sm"
+                    placeholder="mm/dd/yyyy"
+                  />
+                  <span className="text-sm text-zinc-600">to</span>
+                  <input
+                    type="date"
+                    value={filterEndDate}
+                    onChange={(e) => setFilterEndDate(e.target.value)}
+                    className="border border-zinc-300 rounded px-3 py-4 text-sm"
+                    placeholder="mm/dd/yyyy"
+                  />
+                </div>
+              </div>
+                <button
+                  onClick={() => onFilter?.(filterStartDate, filterEndDate)}
+                  className="flex items-center gap-2 bg-zinc-900 text-white px-[46px] py-4 rounded text-sm font-medium hover:bg-zinc-800 transition-colors"
+                >
+                  <img src={Filter} alt="" />
+                  FILTER
+                </button>
+              
+              
+            </div>
+            }
+          </div>
+        </div>
+      )}
+
       {/* Controls */}
       {(showEntriesDropdown || showSearch) && (
         <div className="flex items-center justify-between mb-4">
@@ -187,26 +250,39 @@ export function DataTable<T extends { id: string | number }>({
                 <tr
                   key={row.id}
                   onClick={() => toggleRow(row.id)}
-                  className={`border-b border-zinc-200 ${
-                    expandedContent ? "cursor-pointer hover:bg-zinc-50" : ""
-                  } transition-colors`}
+                  className={`border-b border-zinc-200 ${expandedContent ? "cursor-pointer hover:bg-zinc-50" : ""
+                    } transition-colors`}
                 >
                   {columns.map((column, colIndex) => (
                     <td key={String(column.key)} className="px-4 py-3 text-sm">
-                      <span
-                        className={
-                          colIndex === columns.length - 1 && canExpand ? "flex items-center justify-between" : ""
-                        }
-                      >
-                        {column.render ? column.render(row[column.key], row) : String(row[column.key])}
-                        {colIndex === columns.length - 1 &&
-                          canExpand &&
-                          (expandedRow === row.id ? (
-                            <ChevronUp className="w-4 h-4 text-zinc-400" />
+                      {colIndex === 0 && canExpand ? (
+                        <span className="flex items-center gap-2">
+                          {expandedRow === row.id ? (
+                            <CircleMinus className="w-3 h-3 " color="#FF4116" />
                           ) : (
-                            <ChevronDown className="w-4 h-4 text-zinc-400" />
-                          ))}
-                      </span>
+                            <CirclePlus className="w-3 h-3 " color="black" />
+                          )}
+                          {column.render ? column.render(row[column.key], row) : String(row[column.key])}
+                        </span>
+                      ) : (
+                        // <>
+                        //   {column.render ? column.render(row[column.key], row) : String(row[column.key])}
+                        // </>
+                        <span
+                          className={
+                            colIndex === columns.length - 1 && canExpand ? "flex items-center justify-between" : ""
+                          }
+                        >
+                          {column.render ? column.render(row[column.key], row) : String(row[column.key])}
+                          {colIndex === columns.length - 1 &&
+                            canExpand &&
+                            (expandedRow === row.id ? (
+                              <ChevronUp className="w-4 h-4 text-zinc-400" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4 text-zinc-400" />
+                            ))}
+                        </span>
+                      )}
                     </td>
                   ))}
                 </tr>

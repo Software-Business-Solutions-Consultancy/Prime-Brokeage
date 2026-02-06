@@ -8,22 +8,27 @@ import { useNavigate } from 'react-router'
 import { Modal } from '../../components/shared/Modal'
 import { useEffect, useState } from 'react'
 
-const ActionRequest = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [actionType, setactionType] = useState<string>('');
+const ApproveRequest = () => {
+const [openModal, setOpenModal] = useState<boolean>(false);
+const [actionType, setactionType] = useState<string>('');
+const requestActionType = sessionStorage.getItem('actionType')
 const navigate = useNavigate()
   interface Request {
   id: string
+  transactionId: string
   initiator: string
   dateInitiated: string
   accountNumber: string
   accountName: string
+  securityName?: string
+  securityNumber?: string
 }
 
 
 const requests: Request[] = [
   {
-    id: "PB5520345", 
+    id: "1", 
+    transactionId: "PPB28838283",
     initiator: "John Doe",
     dateInitiated: "10/04/2024 - 14:56",
     accountNumber: "1234567890",
@@ -33,9 +38,49 @@ const requests: Request[] = [
 
 ]
 
+
+const approvalRequests: Request[] = [
+  {
+    id: "1", 
+    transactionId: "PPB28838283",
+    initiator: "John Doe",
+    dateInitiated: "10/04/2024 - 14:56",
+    accountNumber: "1234567890",
+    securityNumber: "1234567890",
+    securityName: "Oslo",
+    accountName: "John's Investment Account",
+  },
+ 
+
+]
+
+const approverColumns: Column<Request>[] = [
+  {
+    label: 'S/N', key: 'id'
+  },
+  {
+    label: 'Request ID', key: 'transactionId',
+  },
+  {
+    label: 'Security Name', key: 'securityName',
+  },
+  { 
+    label: 'Initiator', key: 'initiator',
+  },
+  {
+    label: 'Date Initiated', key: 'dateInitiated',
+  },
+  {
+    label: 'Security Number', key: 'securityNumber',
+  },
+];
+
 const columns: Column<Request>[] = [
   {
-    label: 'Transaction ID', key: 'id',
+    label: 'S/N', key: 'id'
+  },
+  {
+    label: 'Transaction ID', key: 'transactionId',
   },
   { 
     label: 'Initiator', key: 'initiator',
@@ -73,16 +118,16 @@ useEffect(() => {
 
   return (
     <div>
-         <div className='flex gap-4 items-center mb-6 border-b border-[#BA68C8]'>
+         <div className='flex gap-4 items-center mb-6 border-b border-[#FF4116]'>
         <img src={Request} alt="Report Icon" />
         <p className='font-bold text-[32px]'>Action Request</p>
       </div>
       <div className='mb-3'>
 
        <DataTable
-              data={requests}
-              columns={columns}
-              isExpandable={true}
+              data={requestActionType === 'request' ? requests: approvalRequests}
+              columns={requestActionType === 'request' ? columns: approverColumns}
+              isExpandable={requestActionType === 'request' ? true: false}
               showSearch={false}
               expandedContent={() => (
                 <div className="grid grid-cols-2 gap-4 max-w-md">
@@ -105,14 +150,14 @@ useEffect(() => {
               )}
             />
       </div>
-      <div className='my-4 pb-2  border-primary border-b'>
+      <div className='my-4 pb-2  border-[#FF4116] border-b'>
         <p>Comment and Approval</p>
 
 
       </div>
       <textarea placeholder='Comment here' className='text-area border w-full mb-6 p-4 ' name="" id="" rows={5}></textarea>
       <div className="grid grid-cols-3 gap-6">
-            <Button type="button" onClick={() => approve()} className='bg-[#008000]' > Approve </Button>
+            <Button type="button" onClick={() => approve()} className='!bg-[#008000]' > Approve </Button>
           <Button type="button" onClick={() => decline()} variant='danger' icon={<Ban/>} > Decline </Button>
           <Button type="button" onClick={() => navigate(-1)} variant={'secondary'} icon={<UserX/>} > Cancel </Button>
 
@@ -126,13 +171,13 @@ useEffect(() => {
               <div className='p-12'>
 
                 <img src={actionType === 'approve' ? Approved: Declined} alt="Action icon" className='flex items-center justify-center w-fit mx-auto'  />
-                <div className=' pb-6 border-primary border-b'>
+                <div className=' pb-6 border-[#FF4116] border-b'>
 
-                <p className=' font-bold text-[27px] text-center flex items-center'>{ actionType === 'approve' ? 'Request has been sent back to the Initiator' : 'Request has been successfully approved'}</p>
+                <p className=' font-bold text-[27px] text-center flex items-center'>{ actionType === 'approve' ? 'Request has been successfully approved' : 'Request has been sent back to initiator'}</p>
                 </div>
                   
                 <div className='flex item-end justify-end mt-4'>
-                <Button onClick={() => navigate(-1)}  icon={<ThumbsUp/>}>Okay</Button>
+                <Button className='btn-main' onClick={() => navigate(-1)}  icon={<ThumbsUp/>}>Okay</Button>
                 </div>
               </div>
       </Modal>
@@ -143,4 +188,4 @@ useEffect(() => {
   )
 }
 
-export default ActionRequest
+export default ApproveRequest

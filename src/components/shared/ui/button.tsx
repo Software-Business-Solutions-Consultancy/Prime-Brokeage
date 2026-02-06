@@ -51,7 +51,7 @@ export function Button({
   }
 
   return (
-    <button className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`} {...props}>
+    <button className={` ${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`} {...props}>
       {iconPosition === "left" && renderIcon()}
       {children}
       {iconPosition === "right" && renderIcon()}

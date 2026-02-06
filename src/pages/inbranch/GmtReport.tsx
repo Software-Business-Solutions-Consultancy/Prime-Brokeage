@@ -1,7 +1,51 @@
+import { Ban, ThumbsUp, UserX } from 'lucide-react'
+import { useState } from 'react'
 import DataTable, { type Column } from '../../components/shared/DataTable'
+import { Modal } from '../../components/shared/Modal'
+import { Button } from '../../components/shared/ui/button'
 import Request from '/assets/img/request.svg'
+import { useNavigate } from 'react-router'
+import Approved from '/assets/img/approved.svg'
+import Declined from '/assets/img/declined.svg'
 
-const InbranchRequestReport = () => {
+
+
+const GmtReport = () => {
+    const columns: Column<any>[] = [
+      {
+        key: "id",
+        label: "S/N",
+        render: (value) => (
+          <span className="flex items-center gap-2">
+            {String(value)}
+          </span>
+        ),
+      },
+      { key: "transactionId", label: "Transaction ID" },
+      {
+        key: "action",
+        label: "Request Status",
+        render: () => (
+          <div className="flex item-center gap-5">
+            <p  className='text-[#209020] underline decoration-[#209020] cursor-pointer '>Process</p>
+          </div>
+        ),
+      },
+      {
+        key: "action",
+        label: "Transaction Status",
+        render: () => (
+          <div className="flex item-center gap-5">
+            <p  className='text-[#209020] underline decoration-[#209020] cursor-pointer '>Process</p>
+          </div>
+        ),
+      },
+      
+      { key: "initiator", label: "Initiator" },
+      { key: "dateInitiated", label: "Date Initiated" },
+    ]
+
+
        const transactions: any[] = [
   {
     id: 1,
@@ -29,53 +73,19 @@ const InbranchRequestReport = () => {
   },
 ]
 
-
-
-const columns: Column<any>[] = [
-  {
-    key: "id",
-    label: "S/N",
-    render: (value) => (
-      <span className="flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-green-500" />
-        {String(value)}
-      </span>
-    ),
-  },
-  { key: "transactionId", label: "Transaction ID" },
-  {
-    key: "requestStatus",
-    label: "Request Status",
-    render: (value) => (
-            <span className={value === "Pending Authorization" ? "text-orange-500" : "text-green-500"}>{String(value)}</span>
-
-    ),
-  },
-  {
-    key: "transactionStatus",
-    label: "Transaction Status",
-    render: (value) => (
-            <span className={value === "Pending" ? "text-orange-500" : "text-green-500"}>{String(value)}</span>
-
-    ),
-  },
-  
-  { key: "initiator", label: "Initiator" },
-  { key: "accountNumber", label: "Account Number" },
-  { key: "dateInitiated", label: "Date Initiated" },
-]
-
   return (
     <div>
-      <div className='flex gap-4 items-center mb-6'>
+           <div className='flex gap-4 items-center mb-6'>
         <img src={Request} alt="Report Icon" />
-        <p className='font-bold text-[32px]'>Requests Pending Authorization</p>
+        <p className='font-bold text-[32px]'>Report</p>
       </div>
      
 
         <DataTable
         data={transactions}
         columns={columns}
+        hasExport={true}
+        hasFilter={true}
         searchKeys={["transactionId", "initiator"]}
         expandedContent={(row) => (
           <div className="grid grid-cols-2 gap-4 max-w-md">
@@ -93,6 +103,8 @@ const columns: Column<any>[] = [
             <p className="text-sm text-zinc-600">{'10/04/2025'}</p>
             <p className="text-sm font-medium text-zinc-700">Side</p>
             <p className="text-sm text-zinc-600">{'Sell'}</p>
+            <p className="text-sm font-medium text-zinc-700">Counter Party</p>
+            <p className="text-sm text-zinc-600">{'CMD'}</p>
           </div>
         )}
         
@@ -101,4 +113,4 @@ const columns: Column<any>[] = [
   )
 }
 
-export default InbranchRequestReport
+export default GmtReport

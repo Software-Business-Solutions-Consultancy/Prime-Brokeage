@@ -5,11 +5,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import Router from './Routes';
 import Header from './components/shared/Header';
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
 
 function App() {
+  const queryClient = new QueryClient()
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
         <Header />
         <div className=''>
           <Router />
@@ -27,7 +33,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
-    </>
+    </QueryClientProvider>
   )
 }
 

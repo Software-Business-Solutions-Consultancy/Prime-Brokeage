@@ -5,23 +5,19 @@ import Request from '/assets/img/request.svg'
 import Send from '/assets/img/send.svg'
 import { Modal } from '../../components/shared/Modal'
 import Approved from '/assets/img/approved.svg'
-import { Ban, ThumbsUp, UserX } from 'lucide-react'
+import { Ban, Eye, ThumbsUp, UserX, View, ViewIcon } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import Declined from '/assets/img/declined.svg'
 
 
-const OperationsRequestReport = () => {
+const OperationsRequestReportApproval = () => {
   const navigate = useNavigate()
 
   const [activeTab, setActiveTab] = useState<string>('request')
-  const initiatorTab = [
-    {name: 'Pending Recent Request', id: 'request'},
-    {name: 'Pending Uploads Approval', id: 'approval'},
-  ]
 
   const approverTab = [
-    {name: 'Customer Requests', id: 'pending'},
-    {name: 'Upload Approval Request', id: 'pending'},
+    {name: 'Customer Requests', id: 'request'},
+    {name: 'Upload Approval Request', id: 'approver'},
   ]
     const [openModal, setOpenModal] = useState<boolean>(false);
   const [actionType, setactionType] = useState<string>('');
@@ -89,6 +85,12 @@ const OperationsRequestReport = () => {
 ]
 
 
+const viewRequest = (data: any) => {
+  sessionStorage.setItem('actionType', activeTab)
+  console.log(data)
+  navigate(`/operations/pending-request/view/${data.id}`)
+}
+
 
 
 
@@ -104,10 +106,9 @@ const columns: Column<any>[] = [
   },
   { key: "transactionId", label: "Transaction ID" },
   { key: "action", label: "Action",
-     render: () => (
+     render: (row, value) => (
       <div className="flex gap-5">
-        <p onClick={() => actionRequest('send')} className='text-[#209020] underline decoration-[#209020] cursor-pointer '>Approval</p>
-        <p onClick={() => actionRequest('return')} className='text-[#FF4040] underline decoration-[#FF4040] cursor-pointer'>Decline</p>
+        <Eye onClick={() => viewRequest(value)} color='#FF4116'/>
       </div>
     ), },
   
@@ -115,6 +116,30 @@ const columns: Column<any>[] = [
   { key: "initiator", label: "Initiator" },
   { key: "dateInitiated", label: "Date Initiated" },
   { key: "accountNumber", label: "Account Number" },
+]
+
+const approvalColumns: Column<any>[] = [
+  {
+    key: "id",
+    label: "S/N",
+    render: (value) => (
+      <span className="flex items-center gap-2">
+        {String(value)}
+      </span>
+    ),
+  },
+  { key: "transactionId", label: "Request ID" },
+  { key: "action", label: "Action",
+     render: (row, value) => (
+      <div className="flex gap-5">
+        <Eye onClick={() => viewRequest(value)} color='#FF4116'/>
+      </div>
+    ), },
+  
+  
+  { key: "initiator", label: "Initiator" },
+  { key: "dateInitiated", label: "Date Initiated" },
+  { key: "accountNumber", label: "Security Number" },
 ]
 
 
@@ -163,7 +188,7 @@ const decline = () => {
 
         <div className="grid grid-cols-2 mb-2">
           {
-            initiatorTab?.map((item: any) => (
+            approverTab?.map((item: any) => (
               <div onClick={() => setActiveTab(item.id)} className={`cursor-pointer flex items-center justify-center border-b-[3px] py-[10px] ${activeTab === item?.id ? 'border-b border-[#FF8200]' : 'border-b border-[#EBEAFF]'}`}>
                   {item?.name}
               </div>
@@ -172,9 +197,9 @@ const decline = () => {
         </div>
         <DataTable
         data={activeTab === 'request' ? transactions: approverData}
-        columns={activeTab === 'request' ? columns : approverColumns}
+        columns={activeTab === 'request' ? columns : approvalColumns}
         searchKeys={["transactionId", "initiator"]}
-        
+        isExpandable={false}
         expandedContent={(row) => (
           <div className="grid grid-cols-2 gap-4 max-w-md">
             {
@@ -241,4 +266,4 @@ const decline = () => {
   )
 }
 
-export default OperationsRequestReport
+export default OperationsRequestReportApproval
